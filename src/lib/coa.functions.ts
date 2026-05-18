@@ -23,7 +23,7 @@ export const createAccount = createServerFn({ method: "POST" })
     // generate kode
     const { data: kode, error: kodeErr } = await supabase.rpc(
       "generate_next_account_code",
-      { _tenant_id: data.tenant_id, _parent_id: data.parent_id ?? null },
+      { _tenant_id: data.tenant_id, _parent_id: (data.parent_id ?? null) as any },
     );
     if (kodeErr) throw new Error(kodeErr.message);
 
