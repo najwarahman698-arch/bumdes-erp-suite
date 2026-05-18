@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link, useNavigate, redirect } from "@tanstack/react-router";
-import { Building2, LayoutDashboard, LogOut, Users, FileText, Layers } from "lucide-react";
+import { Building2, LayoutDashboard, LogOut, FileText, Layers, BookOpen, NotebookPen, BarChart3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,10 @@ function AuthenticatedLayout() {
             <>
               <SectionLabel>BUMDes</SectionLabel>
               <NavItem to="/units" icon={Layers}>Unit Usaha</NavItem>
+              <NavItem to="/coa" icon={BookOpen}>Chart of Accounts</NavItem>
+              <NavItem to="/journals" icon={NotebookPen}>Jurnal</NavItem>
+              <SectionLabel>Laporan</SectionLabel>
+              <NavItem to="/reports/trial-balance" icon={BarChart3}>Neraca Saldo</NavItem>
             </>
           )}
         </nav>
