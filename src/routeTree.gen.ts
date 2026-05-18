@@ -15,6 +15,10 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedUnitsRouteImport } from './routes/_authenticated/units'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCoaRouteImport } from './routes/_authenticated/coa'
+import { Route as AuthenticatedJournalsIndexRouteImport } from './routes/_authenticated/journals.index'
+import { Route as AuthenticatedReportsTrialBalanceRouteImport } from './routes/_authenticated/reports.trial-balance'
+import { Route as AuthenticatedJournalsNewRouteImport } from './routes/_authenticated/journals.new'
 import { Route as AuthenticatedAdminTenantsRouteImport } from './routes/_authenticated/admin.tenants'
 import { Route as AuthenticatedAdminRegistrationsRouteImport } from './routes/_authenticated/admin.registrations'
 
@@ -47,6 +51,29 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedCoaRoute = AuthenticatedCoaRouteImport.update({
+  id: '/coa',
+  path: '/coa',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedJournalsIndexRoute =
+  AuthenticatedJournalsIndexRouteImport.update({
+    id: '/journals/',
+    path: '/journals/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReportsTrialBalanceRoute =
+  AuthenticatedReportsTrialBalanceRouteImport.update({
+    id: '/reports/trial-balance',
+    path: '/reports/trial-balance',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedJournalsNewRoute =
+  AuthenticatedJournalsNewRouteImport.update({
+    id: '/journals/new',
+    path: '/journals/new',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedAdminTenantsRoute =
   AuthenticatedAdminTenantsRouteImport.update({
     id: '/admin/tenants',
@@ -64,19 +91,27 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/daftar': typeof DaftarRoute
   '/login': typeof LoginRoute
+  '/coa': typeof AuthenticatedCoaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/units': typeof AuthenticatedUnitsRoute
   '/admin/registrations': typeof AuthenticatedAdminRegistrationsRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
+  '/journals/new': typeof AuthenticatedJournalsNewRoute
+  '/reports/trial-balance': typeof AuthenticatedReportsTrialBalanceRoute
+  '/journals/': typeof AuthenticatedJournalsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/daftar': typeof DaftarRoute
   '/login': typeof LoginRoute
+  '/coa': typeof AuthenticatedCoaRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/units': typeof AuthenticatedUnitsRoute
   '/admin/registrations': typeof AuthenticatedAdminRegistrationsRoute
   '/admin/tenants': typeof AuthenticatedAdminTenantsRoute
+  '/journals/new': typeof AuthenticatedJournalsNewRoute
+  '/reports/trial-balance': typeof AuthenticatedReportsTrialBalanceRoute
+  '/journals': typeof AuthenticatedJournalsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,10 +119,14 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/daftar': typeof DaftarRoute
   '/login': typeof LoginRoute
+  '/_authenticated/coa': typeof AuthenticatedCoaRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/units': typeof AuthenticatedUnitsRoute
   '/_authenticated/admin/registrations': typeof AuthenticatedAdminRegistrationsRoute
   '/_authenticated/admin/tenants': typeof AuthenticatedAdminTenantsRoute
+  '/_authenticated/journals/new': typeof AuthenticatedJournalsNewRoute
+  '/_authenticated/reports/trial-balance': typeof AuthenticatedReportsTrialBalanceRoute
+  '/_authenticated/journals/': typeof AuthenticatedJournalsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -95,29 +134,41 @@ export interface FileRouteTypes {
     | '/'
     | '/daftar'
     | '/login'
+    | '/coa'
     | '/dashboard'
     | '/units'
     | '/admin/registrations'
     | '/admin/tenants'
+    | '/journals/new'
+    | '/reports/trial-balance'
+    | '/journals/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/daftar'
     | '/login'
+    | '/coa'
     | '/dashboard'
     | '/units'
     | '/admin/registrations'
     | '/admin/tenants'
+    | '/journals/new'
+    | '/reports/trial-balance'
+    | '/journals'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/daftar'
     | '/login'
+    | '/_authenticated/coa'
     | '/_authenticated/dashboard'
     | '/_authenticated/units'
     | '/_authenticated/admin/registrations'
     | '/_authenticated/admin/tenants'
+    | '/_authenticated/journals/new'
+    | '/_authenticated/reports/trial-balance'
+    | '/_authenticated/journals/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +222,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/coa': {
+      id: '/_authenticated/coa'
+      path: '/coa'
+      fullPath: '/coa'
+      preLoaderRoute: typeof AuthenticatedCoaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/journals/': {
+      id: '/_authenticated/journals/'
+      path: '/journals'
+      fullPath: '/journals/'
+      preLoaderRoute: typeof AuthenticatedJournalsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reports/trial-balance': {
+      id: '/_authenticated/reports/trial-balance'
+      path: '/reports/trial-balance'
+      fullPath: '/reports/trial-balance'
+      preLoaderRoute: typeof AuthenticatedReportsTrialBalanceRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/journals/new': {
+      id: '/_authenticated/journals/new'
+      path: '/journals/new'
+      fullPath: '/journals/new'
+      preLoaderRoute: typeof AuthenticatedJournalsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/admin/tenants': {
       id: '/_authenticated/admin/tenants'
       path: '/admin/tenants'
@@ -189,17 +268,25 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedCoaRoute: typeof AuthenticatedCoaRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedUnitsRoute: typeof AuthenticatedUnitsRoute
   AuthenticatedAdminRegistrationsRoute: typeof AuthenticatedAdminRegistrationsRoute
   AuthenticatedAdminTenantsRoute: typeof AuthenticatedAdminTenantsRoute
+  AuthenticatedJournalsNewRoute: typeof AuthenticatedJournalsNewRoute
+  AuthenticatedReportsTrialBalanceRoute: typeof AuthenticatedReportsTrialBalanceRoute
+  AuthenticatedJournalsIndexRoute: typeof AuthenticatedJournalsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCoaRoute: AuthenticatedCoaRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedUnitsRoute: AuthenticatedUnitsRoute,
   AuthenticatedAdminRegistrationsRoute: AuthenticatedAdminRegistrationsRoute,
   AuthenticatedAdminTenantsRoute: AuthenticatedAdminTenantsRoute,
+  AuthenticatedJournalsNewRoute: AuthenticatedJournalsNewRoute,
+  AuthenticatedReportsTrialBalanceRoute: AuthenticatedReportsTrialBalanceRoute,
+  AuthenticatedJournalsIndexRoute: AuthenticatedJournalsIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -215,3 +302,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
