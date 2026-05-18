@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_balances: {
+        Row: {
+          account_id: string
+          closing_balance: number
+          debit_total: number
+          id: string
+          kredit_total: number
+          opening_balance: number
+          period_month: number
+          period_year: number
+          tenant_id: string
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          closing_balance?: number
+          debit_total?: number
+          id?: string
+          kredit_total?: number
+          opening_balance?: number
+          period_month: number
+          period_year: number
+          tenant_id: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          closing_balance?: number
+          debit_total?: number
+          id?: string
+          kredit_total?: number
+          opening_balance?: number
+          period_month?: number
+          period_year?: number
+          tenant_id?: string
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_balances_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_units: {
         Row: {
           created_at: string
@@ -51,6 +101,227 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      chart_of_accounts: {
+        Row: {
+          created_at: string
+          created_from_template: boolean
+          id: string
+          is_active: boolean
+          is_header: boolean
+          is_postable: boolean
+          is_system: boolean
+          kode: string
+          level: number
+          nama: string
+          normal_balance: Database["public"]["Enums"]["normal_balance"]
+          parent_id: string | null
+          tenant_id: string
+          tipe: Database["public"]["Enums"]["account_type"]
+          unit_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_from_template?: boolean
+          id?: string
+          is_active?: boolean
+          is_header?: boolean
+          is_postable?: boolean
+          is_system?: boolean
+          kode: string
+          level?: number
+          nama: string
+          normal_balance: Database["public"]["Enums"]["normal_balance"]
+          parent_id?: string | null
+          tenant_id: string
+          tipe: Database["public"]["Enums"]["account_type"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_from_template?: boolean
+          id?: string
+          is_active?: boolean
+          is_header?: boolean
+          is_postable?: boolean
+          is_system?: boolean
+          kode?: string
+          level?: number
+          nama?: string
+          normal_balance?: Database["public"]["Enums"]["normal_balance"]
+          parent_id?: string | null
+          tenant_id?: string
+          tipe?: Database["public"]["Enums"]["account_type"]
+          unit_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chart_of_accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coa_templates: {
+        Row: {
+          created_at: string
+          id: string
+          is_header: boolean
+          is_postable: boolean
+          is_system: boolean
+          jenis_unit: Database["public"]["Enums"]["unit_jenis"] | null
+          kode: string
+          level: number
+          nama: string
+          normal_balance: Database["public"]["Enums"]["normal_balance"]
+          parent_kode: string | null
+          scope: string
+          sort_order: number
+          tipe: Database["public"]["Enums"]["account_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_header?: boolean
+          is_postable?: boolean
+          is_system?: boolean
+          jenis_unit?: Database["public"]["Enums"]["unit_jenis"] | null
+          kode: string
+          level?: number
+          nama: string
+          normal_balance: Database["public"]["Enums"]["normal_balance"]
+          parent_kode?: string | null
+          scope: string
+          sort_order?: number
+          tipe: Database["public"]["Enums"]["account_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_header?: boolean
+          is_postable?: boolean
+          is_system?: boolean
+          jenis_unit?: Database["public"]["Enums"]["unit_jenis"] | null
+          kode?: string
+          level?: number
+          nama?: string
+          normal_balance?: Database["public"]["Enums"]["normal_balance"]
+          parent_kode?: string | null
+          scope?: string
+          sort_order?: number
+          tipe?: Database["public"]["Enums"]["account_type"]
+        }
+        Relationships: []
+      }
+      journal_items: {
+        Row: {
+          account_id: string
+          created_at: string
+          debit: number
+          deskripsi: string | null
+          id: string
+          journal_id: string
+          kredit: number
+          sort_order: number
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          debit?: number
+          deskripsi?: string | null
+          id?: string
+          journal_id: string
+          kredit?: number
+          sort_order?: number
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          debit?: number
+          deskripsi?: string | null
+          id?: string
+          journal_id?: string
+          kredit?: number
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journal_items_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journal_items_journal_id_fkey"
+            columns: ["journal_id"]
+            isOneToOne: false
+            referencedRelation: "journals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journals: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deskripsi: string | null
+          id: string
+          nomor: string
+          posted_at: string | null
+          posted_by: string | null
+          reference_id: string | null
+          reference_type: string | null
+          status: Database["public"]["Enums"]["journal_status"]
+          tanggal: string
+          tenant_id: string
+          unit_id: string | null
+          updated_at: string
+          voided_at: string | null
+          voided_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deskripsi?: string | null
+          id?: string
+          nomor: string
+          posted_at?: string | null
+          posted_by?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: Database["public"]["Enums"]["journal_status"]
+          tanggal: string
+          tenant_id: string
+          unit_id?: string | null
+          updated_at?: string
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deskripsi?: string | null
+          id?: string
+          nomor?: string
+          posted_at?: string | null
+          posted_by?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: Database["public"]["Enums"]["journal_status"]
+          tanggal?: string
+          tenant_id?: string
+          unit_id?: string | null
+          updated_at?: string
+          voided_at?: string | null
+          voided_by?: string | null
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -253,9 +524,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_journal_to_balances: {
+        Args: { _direction: number; _journal_id: string }
+        Returns: undefined
+      }
       approve_tenant_registration: {
         Args: { _director_user_id: string; _registration_id: string }
         Returns: Json
+      }
+      generate_next_account_code: {
+        Args: { _parent_id: string; _tenant_id: string }
+        Returns: string
       }
       has_role: {
         Args: {
@@ -273,8 +552,15 @@ export type Database = {
         Args: { _reason: string; _registration_id: string }
         Returns: undefined
       }
+      seed_tenant_coa: { Args: { _tenant_id: string }; Returns: undefined }
+      seed_unit_coa: { Args: { _unit_id: string }; Returns: undefined }
+      validate_journal_balance: {
+        Args: { _journal_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
+      account_type: "asset" | "liability" | "equity" | "revenue" | "expense"
       app_role:
         | "super_admin_platform"
         | "direktur_bumdes"
@@ -282,6 +568,8 @@ export type Database = {
         | "manager_unit"
         | "operator_unit"
         | "kasir"
+      journal_status: "draft" | "posted" | "void"
+      normal_balance: "D" | "K"
       registration_status: "pending" | "approved" | "rejected"
       tenant_status: "pending" | "active" | "suspended"
       unit_jenis:
@@ -419,6 +707,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      account_type: ["asset", "liability", "equity", "revenue", "expense"],
       app_role: [
         "super_admin_platform",
         "direktur_bumdes",
@@ -427,6 +716,8 @@ export const Constants = {
         "operator_unit",
         "kasir",
       ],
+      journal_status: ["draft", "posted", "void"],
+      normal_balance: ["D", "K"],
       registration_status: ["pending", "approved", "rejected"],
       tenant_status: ["pending", "active", "suspended"],
       unit_jenis: [
